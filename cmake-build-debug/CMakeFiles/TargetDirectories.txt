@@ -1,0 +1,8 @@
+C:/Programming/C++/AdventOfCode2023/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Programming/C++/AdventOfCode2023/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Programming/C++/AdventOfCode2023/cmake-build-debug/day1/CMakeFiles/AdventOfCode_Day1.dir
+C:/Programming/C++/AdventOfCode2023/cmake-build-debug/day1/CMakeFiles/edit_cache.dir
+C:/Programming/C++/AdventOfCode2023/cmake-build-debug/day1/CMakeFiles/rebuild_cache.dir
+C:/Programming/C++/AdventOfCode2023/cmake-build-debug/day2/CMakeFiles/AdventOfCode_Day2.dir
+C:/Programming/C++/AdventOfCode2023/cmake-build-debug/day2/CMakeFiles/edit_cache.dir
+C:/Programming/C++/AdventOfCode2023/cmake-build-debug/day2/CMakeFiles/rebuild_cache.dir
