@@ -1,11 +1,9 @@
-//
-// Created by Dino on 06.12.2023.
-//
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <regex>
-#include <ranges>
+#include <sstream>
+#include <numeric>
 
 using namespace std;
 
@@ -39,13 +37,12 @@ void parse_games(vector<Game>&games) {
     while (getline(i_stream, line)) {
       Game temp_game{};
       if (smatch matcher; regex_search(line, matcher, game_id_regex)) {
-
         const int game_id = stoi(matcher[0]);
         const size_t idx_colon = line.find(':');
         const vector<string> sets_played = split_line_into_segments(line.substr(idx_colon + 1));
 
         for (const auto&set: sets_played) {
-          Set temp_set;
+          Set temp_set{};
           for (auto i = sregex_iterator(set.begin(), set.end(), cube_regex); i != sregex_iterator(); ++i) {
             const smatch&matches = *i;
             const string cube_string = matches.str();
@@ -75,12 +72,12 @@ int main() {
   const pair<int, string> max_blue{14, "blue"};
 
   parse_games(games);
-  vector<int> invalid_games;
+
+  vector<int> possible_game_ids;
   for (const auto&[id, sets]: games) {
-    int sum_red{};
-    int sum_green{};
-    int sum_blue{};
+    bool is_possible = true;
     for (const auto&[cubes]: sets) {
+      int sum_red = 0, sum_green = 0, sum_blue = 0;
       for (const auto&[amount, color]: cubes) {
         if (color == "red") {
           sum_red += amount;
@@ -92,26 +89,18 @@ int main() {
           sum_blue += amount;
         }
       }
+      if (sum_red > max_red.first || sum_green > max_green.first || sum_blue > max_blue.first) {
+        is_possible = false;
+        break;
+      }
     }
-    const bool invalid_red = sum_red > max_red.first;
-    const bool invalid_green = sum_green > max_green.first;
-    const bool invalid_blue = sum_blue > max_blue.first;
-    if (invalid_red || invalid_green || invalid_blue) {
-      invalid_games.push_back(id);
-    }
-  }
-  for (const auto game_id: invalid_games) {
-    auto it = ranges::find_if(games, [game_id](const Game&game) {
-      return game_id == game.id;
-    });
-    if (it != games.end()) {
-      games.erase(it);
+    if (is_possible) {
+      possible_game_ids.push_back(id);
     }
   }
-  int sum_valid_game_ids{};
-  for (const auto&[id, sets]: games) {
-    sum_valid_game_ids += id;
-  }
-  cout << sum_valid_game_ids;
+
+  const int sum_possible_game_ids = accumulate(possible_game_ids.begin(), possible_game_ids.end(), 0);
+  cout << sum_possible_game_ids;
+
   return 0;
 }
