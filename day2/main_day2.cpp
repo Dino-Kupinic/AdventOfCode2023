@@ -65,7 +65,7 @@ void parse_games(vector<Game>&games) {
   i_stream.close();
 }
 
-int main() {
+void part1() {
   vector<Game> games{};
   const pair<int, string> max_red{12, "red"};
   const pair<int, string> max_green{13, "green"};
@@ -100,7 +100,37 @@ int main() {
   }
 
   const int sum_possible_game_ids = accumulate(possible_game_ids.begin(), possible_game_ids.end(), 0);
-  cout << sum_possible_game_ids;
+  cout << sum_possible_game_ids << '\n';
+}
 
+void part2() {
+  vector<Game> games{};
+  parse_games(games);
+
+  vector<int> powers{};
+  for (const auto&[id, sets]: games) {
+    int lowest_red = 0, lowest_green = 0, lowest_blue = 0;
+    for (const auto&[cubes]: sets) {
+      for (const auto&[amount, color]: cubes) {
+        if (color == "red") {
+          if (amount >= lowest_red) lowest_red = amount;
+        }
+        if (color == "green") {
+          if (amount >= lowest_green) lowest_green = amount;
+        }
+        if (color == "blue") {
+          if (amount >= lowest_blue) lowest_blue = amount;
+        }
+      }
+    }
+    powers.push_back(lowest_red * lowest_green * lowest_blue);
+  }
+  const int sum_powers = accumulate(powers.begin(), powers.end(), 0);
+  cout << sum_powers << '\n';
+}
+
+int main() {
+  part1();
+  part2();
   return 0;
 }
